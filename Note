@@ -1,7 +1,37 @@
 ### TERRAFORM ###
-+ To deploy infrastructure with Terraform:
-    • Scope - Identify the infrastructure for your project.
-    • Author - Write the configuration for your infrastructure.
-    • Initialize - Install the plugins Terraform needs to manage the infrastructure.
-    • Plan - Preview the changes Terraform will make to match your configuration.
-    • Apply - Make the planned changes.
+=> Tool for infrastructure provisioning
++ automate and manage infrastructure
++ automate services that run on platform
++ Declarative: define WHAT end result u want
+
+### (Prepare) Provisioning Infrastructure ###
++ private network space (VPC)
++ create AWS users and permissions
++ ec2 server instance
++ install Docker and tools
++ security (firewall)
+### Deploy app ###
+
+### Diff Ansible and Terraform ###
+Terraform:
+    => mainly infratructure provisioning tool
+
+Ansible:
+    => mainly a configuration tool
+
+### Terraform architecture
++ Core: What needs to be created/updated/destroyed
+    - tf-config (what to create and config)
+    - State: current state of setup
++ Providers:
+    - AWS AZURE IaaS
+    - K8S PaaS
+    - Fastly(service) SaaS
+1 Provider --> 1000 resources
+AWS ----> EC2 / Users
+K8S ----> SVC / Deploys / NS
+
+### GPG ###
++ GPG key:
+    - is a method of encrypting and signing messages and files.
+    - it's used to verify the authenticity of a downloaded package and to ensure that it has not been tampered with

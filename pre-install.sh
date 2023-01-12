@@ -6,6 +6,8 @@ sudo apt install git
 git config --global user.email meriemmounchid1@gmail.com
 git config --global user.name meriem-mounchid
 
+### Install Tools ###
+sudo apt install -y curl vim unzip
 ### Permission ###
 sudo usermod -aG sudo misaki
 sudo usermod -aG docker misaki
@@ -34,3 +36,21 @@ sudo apt-get install terraform
 # APPLY:    terraform apply
 # RUN:      localhost:8000
 # STOP:     terraform destroy
+# FMT:      terraform fmt (Terraform will print out the names of the files it modified)
+# Validate: terraform validate
+
+###  Install AWS CLI ###
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+sudo ./aws/install
+#Test: /usr/local/bin/aws --version 
+
+### EXPORT ###
+export AWS_ACCESS_KEY_ID=AKIAWKDZT2H3GK63HK7J
+export AWS_SECRET_ACCESS_KEY=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
+
+
+### Create a default subnet ###
+aws ec2 create-default-subnet --availability-zone eu-west-1a
+# SubnetId: subnet-0aba2566aa6f9da42
+# VpcId: vpc-0a163ed0bdd23126e

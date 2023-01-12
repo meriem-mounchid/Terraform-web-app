@@ -1,0 +1,5 @@
+misaki.csv
+.terraform*
+aws*
+terraform.tfstate
+terraform.tfstate.backup
