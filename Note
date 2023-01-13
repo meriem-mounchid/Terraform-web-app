@@ -35,3 +35,6 @@ K8S ----> SVC / Deploys / NS
 + GPG key:
     - is a method of encrypting and signing messages and files.
     - it's used to verify the authenticity of a downloaded package and to ensure that it has not been tampered with
+### Module vs Ressource ###
+- Module is a collection of resources 
+- Resource is a single infrastructure object

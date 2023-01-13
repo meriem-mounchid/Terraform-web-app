@@ -1,0 +1,53 @@
+### Virtual Private Clouds ###
++ lets you have a virtual network 
+    => so that you can select your own IP address range
+    => create your own subnets
+    => configure your route tables & network gateways
++ Create a new VPC
+    - The VPC
+    - One of the subnets
+    - An Internet gateway
+### Subnets ###
++ Subnets
+    - is a range of IP addresses in your VPC
+        > to help minimize traffic
++ Route table:
+    - A set of rules known as routes that determine where network traffic is directed
++ A public subnet
+    - is linked to a routing table and has a route to an Internet gateway
+    - this links the VPC to the Internet as well as other AWS services.
+        > can send outbound traffic directly to the Internet and vice versa
+        > Users from the internet must be able to access a web server.
++ A private subnet
+    - is associated with a routing table but does not have a route to an internet gateway (NAT)
+        > DB
+        > Back-End
+https://docs.aws.amazon.com/images/vpc/latest/userguide/images/case-2_updated.png
+
+### Security Groups ###
++ Security Groups:
+    - acts as a virtual firewall for your EC2 instances
+    > control incoming and outgoing traffic
+
+### Elastic Compute Cloud ###
++ EC2:
+    - allows you to run servers in the cloud
+    - to create and run virtual machines in the cloud
+### Simple Storage Service ###
++ S3:
+    - for storing large amounts of static data and ideal for data backups
+### Identity and Access Management ###
++ IAM:
+    - is a web service that helps you securely control access to AWS resources
+    > IAM is used to manage AWS users and their access to AWS resources
++ MFA:
+    - Multi-Factor Authentication
+    > adds extra security to the account
+    - IAM is a global service it is not restricted to one region
++ Roles:
+    - is a database object that groups together one or more privileges and can be assigned to users
+
+Hello, 
+i finished reading and underestanding more about VPC sunets(private and public)
+security groups , ec2, s3 , iam and roles
+Now I m still on Terraform
