@@ -46,8 +46,3 @@ https://docs.aws.amazon.com/images/vpc/latest/userguide/images/case-2_updated.pn
     - IAM is a global service it is not restricted to one region
 + Roles:
     - is a database object that groups together one or more privileges and can be assigned to users
-
-Hello, 
-i finished reading and underestanding more about VPC sunets(private and public)
-security groups , ec2, s3 , iam and roles
-Now I m still on Terraform
