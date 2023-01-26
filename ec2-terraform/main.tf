@@ -8,7 +8,6 @@ terraform {
   required_version = ">= 1.2.0"
 }
 
-# Configure the AWS Provider
 provider "aws" {
   region = "eu-west-1"
 }
@@ -48,19 +47,40 @@ resource "aws_subnet" "my_public_subnet" {
   }
 }
 
+resource "aws_subnet" "my_public_subnet2" {
+  vpc_id = aws_vpc.my_vpc.id
+  cidr_block = "10.0.100.0/24"
+  map_public_ip_on_launch = true
+  tags = {
+      Name = "my_public_subnet2"
+  }
+}
+
 resource "aws_route_table_association" "rt_associate_public" {
   route_table_id = aws_default_route_table.public_rt.id
   subnet_id      = aws_subnet.my_public_subnet.id
 }
 
-resource "aws_security_group" "security_group_2" {
-  name        = "security_group_2"
+resource "aws_route_table_association" "rt_associate_public2" {
+  route_table_id = aws_default_route_table.public_rt.id
+  subnet_id      = aws_subnet.my_public_subnet2.id
+}
+
+resource "aws_security_group" "my_security_group" {
+  name        = "my_security_group"
   description = "Testing my security group"
   vpc_id = aws_vpc.my_vpc.id
 
   ingress {
     from_port   = 22
     to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port   = 80
+    to_port     = 80
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
@@ -73,23 +93,62 @@ resource "aws_security_group" "security_group_2" {
   }
 }
 
-resource "aws_instance" "my_server_2" {
-  ami           = "ami-00463ddd1036a8eb6"
+resource "aws_instance" "my_1st_server" {
+  ami       = "ami-00463ddd1036a8eb6"
   key_name  = "cert"
   instance_type = "t2.micro"
   subnet_id     = aws_subnet.my_public_subnet.id
-  vpc_security_group_ids = [aws_security_group.security_group_2.id]
+  # availability_zone = "eu-west-1a"
+  vpc_security_group_ids = [aws_security_group.my_security_group.id]
   tags = {
-    Name = "my_server_2"
+    Name = "my_1st_server"
   }
+}
 
-  # provisioner "remote-exec" {
-  #   script = "/Users/meriemmounchid/Desktop/Terraform/tools/script.sh"
-  #   connection {
-  #     type = "ssh"
-  #     host = self.public_ip
-  #     user = "ubuntu"
-  #     private_key = file("/Users/meriemmounchid/Desktop/Terraform/myboomi.cer")
-  #   }
-  # }
+resource "aws_instance" "my_2nd_server" {
+  ami       = "ami-00463ddd1036a8eb6"
+  key_name  = "cert"
+  instance_type = "t2.micro"
+  subnet_id     = aws_subnet.my_public_subnet2.id
+  # availability_zone = "eu-west-1c"
+  vpc_security_group_ids = [aws_security_group.my_security_group.id]
+  tags = {
+    Name = "my_2nd_server"
+  }
+}
+
+resource "aws_lb" "alb" {
+  name               = "alb"
+  internal           = false
+  load_balancer_type = "application"
+  subnets = [aws_subnet.my_public_subnet.id, aws_subnet.my_public_subnet2.id]
+}
+
+resource "aws_lb_target_group" "alb_tg" {
+  name     = "albtg"
+  port     = 80
+  protocol = "HTTP"
+  vpc_id   = aws_vpc.my_vpc.id
+}
+
+resource "aws_lb_target_group_attachment" "alb_tga1" {
+  target_group_arn = aws_lb_target_group.alb_tg.arn
+  target_id        = aws_instance.my_1st_server.id
+  port             = 80
+}
+
+resource "aws_lb_target_group_attachment" "alb_tga2" {
+  target_group_arn = aws_lb_target_group.alb_tg.arn
+  target_id        = aws_instance.my_2nd_server.id
+  port             = 80
+}
+
+resource "aws_lb_listener" "alb_listener" {
+  load_balancer_arn = aws_lb.alb.arn
+  protocol          = "HTTP"
+  port              = 80
+  default_action {
+    target_group_arn = aws_lb_target_group.alb_tg.arn
+    type             = "forward"
+  }
 }
