@@ -46,3 +46,9 @@ https://docs.aws.amazon.com/images/vpc/latest/userguide/images/case-2_updated.pn
     - IAM is a global service it is not restricted to one region
 + Roles:
     - is a database object that groups together one or more privileges and can be assigned to users
+### Load Balancer ###
++ is a service that automatically distributes incoming web traffic across multiple EC2
+    - Application Load Balancer (ALB)
+        > is best suited for routing HTTP/HTTPS traffic
+    - Network Load Balancer (NLB)
+        > is best suited for TCP/UDP traffic.

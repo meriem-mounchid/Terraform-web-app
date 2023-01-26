@@ -1,4 +1,7 @@
 misaki.csv
+myboomi.cer
+cert.pem
+key-pair.pem
 .terraform*
 aws*
 terraform.tfstate

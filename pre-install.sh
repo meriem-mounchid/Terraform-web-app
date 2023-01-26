@@ -54,3 +54,15 @@ export AWS_SECRET_ACCESS_KEY=GBQ8siZyom69P6eYV4EmzeZuqYptVWw/OC4m5e5W
 aws ec2 create-default-subnet --availability-zone eu-west-1a
 # SubnetId: subnet-0aba2566aa6f9da42
 # VpcId: vpc-0a163ed0bdd23126e
+
+  #lifecycle {
+    # When attaching VPN gateways it is common to define aws_vpn_gateway_route_propagation
+    # resources that manipulate the attributes of the routing table (typically for the private subnets)
+    #ignore_changes = [propagating_vgws]
+  #}
+  #tags = merge(local.common_tags, tomap({
+  #  Name        = join("-", [local.prefix, "public-route-table"]),
+  #  description = "public route used for api/web: public instances require public accessibility"
+  #}))
+
+    #tags = merge(local.common_tags, tomap({ Name = join("-", [local.prefix, "igw"]) }))
