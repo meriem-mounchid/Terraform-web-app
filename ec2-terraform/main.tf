@@ -42,6 +42,7 @@ resource "aws_subnet" "my_public_subnet" {
   vpc_id = aws_vpc.my_vpc.id
   cidr_block = "10.0.1.0/24"
   map_public_ip_on_launch = true
+  availability_zone = "eu-west-1a"
   tags = {
       Name = "my_public_subnet"
   }
@@ -51,6 +52,7 @@ resource "aws_subnet" "my_public_subnet2" {
   vpc_id = aws_vpc.my_vpc.id
   cidr_block = "10.0.100.0/24"
   map_public_ip_on_launch = true
+  availability_zone = "eu-west-1c"
   tags = {
       Name = "my_public_subnet2"
   }
@@ -91,6 +93,13 @@ resource "aws_security_group" "my_security_group" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 }
 
 resource "aws_instance" "my_1st_server" {
@@ -98,20 +107,24 @@ resource "aws_instance" "my_1st_server" {
   key_name  = "cert"
   instance_type = "t2.micro"
   subnet_id     = aws_subnet.my_public_subnet.id
-  # availability_zone = "eu-west-1a"
   vpc_security_group_ids = [aws_security_group.my_security_group.id]
+  user_data = file("script.sh")
   tags = {
     Name = "my_1st_server"
   }
 }
+
+# output "debug" {
+#   value = join("", ["http://", aws_instance.my_1st_server.public_ip])
+# }
 
 resource "aws_instance" "my_2nd_server" {
   ami       = "ami-00463ddd1036a8eb6"
   key_name  = "cert"
   instance_type = "t2.micro"
   subnet_id     = aws_subnet.my_public_subnet2.id
-  # availability_zone = "eu-west-1c"
   vpc_security_group_ids = [aws_security_group.my_security_group.id]
+  user_data = file("script.sh")
   tags = {
     Name = "my_2nd_server"
   }
