@@ -81,6 +81,13 @@ resource "aws_security_group" "my_security_group" {
   }
 
   ingress {
+    from_port   = 3306
+    to_port     = 3306
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
@@ -114,9 +121,9 @@ resource "aws_instance" "my_1st_server" {
   }
 }
 
-# output "debug" {
-#   value = join("", ["http://", aws_instance.my_1st_server.public_ip])
-# }
+output "instance_ip" {
+  value = aws_instance.my_1st_server.public_ip
+}
 
 resource "aws_instance" "my_2nd_server" {
   ami       = "ami-00463ddd1036a8eb6"
@@ -128,6 +135,10 @@ resource "aws_instance" "my_2nd_server" {
   tags = {
     Name = "my_2nd_server"
   }
+}
+
+output "instance_ip2" {
+  value = aws_instance.my_2nd_server.public_ip
 }
 
 resource "aws_lb" "alb" {

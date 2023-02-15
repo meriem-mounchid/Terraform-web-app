@@ -17,4 +17,3 @@ sudo git clone https://github.com/meriem-mounchid/app-test-01.git app
 sudo docker-compose -f ~/app/docker-compose.yaml up --build -d
 sleep 3
 # find / -type d -name "app" 2>/dev/null
-# terraform output instance_ip > output.txt
