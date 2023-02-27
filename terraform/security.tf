@@ -57,3 +57,16 @@ resource "aws_security_group" "instance_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
+
+resource "aws_security_group" "alb_ingress" {
+  name_prefix = "alb_ingress"
+  description = "Security group for ALB ingress"
+  vpc_id      = aws_vpc.my_vpc.id
+
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    security_groups = [aws_security_group.my_security_group.id]
+  }
+}
