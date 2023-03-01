@@ -16,7 +16,7 @@ resource "aws_security_group" "my_security_group" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-
+  
   ingress {
     from_port   = 8080
     to_port     = 8080
@@ -58,15 +58,51 @@ resource "aws_security_group" "instance_sg" {
   }
 }
 
-resource "aws_security_group" "alb_ingress" {
-  name_prefix = "alb_ingress"
-  description = "Security group for ALB ingress"
+# resource "aws_security_group" "alb_ingress" {
+#   name_prefix = "alb_ingress"
+#   description = "Security group for ALB ingress"
+#   vpc_id      = aws_vpc.my_vpc.id
+
+#   ingress {
+#     from_port   = 80
+#     to_port     = 80
+#     protocol    = "tcp"
+#     security_groups = [aws_security_group.my_security_group.id]
+#   }
+# }
+
+resource "aws_security_group" "alb_eg1" {
+  name = "allow_http_access"
+  description = "allow inbound http traffic"
   vpc_id      = aws_vpc.my_vpc.id
 
   ingress {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    security_groups = [aws_security_group.my_security_group.id]
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  tags = {
+    "Name" = "App-sg"
   }
 }
+
+# resource "aws_security_group" "alb_eg1" {
+#   name = "alb_eg1"
+#   vpc_id      = aws_vpc.my_vpc.id
+# }
+
+# resource "aws_security_group_rule" "alb_ingress" {
+#   type        = "ingress"
+#   from_port   = 80
+#   to_port     = 80
+#   protocol    = "tcp"
+#   security_group_id = aws_security_group.alb_eg1.id
+#   cidr_blocks = ["0.0.0.0/0"]
+# }

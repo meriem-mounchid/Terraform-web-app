@@ -24,7 +24,7 @@ resource "aws_instance" "my_2nd_server" {
   # user_data = file("script.sh")
   user_data = templatefile("${path.module}/templates/instance.tpl",{
     db_endpoint = aws_db_instance.rds_db.endpoint,
-    lb_name = aws_lb.alb.name
+    lb_name = aws_lb.alb.dns_name
   })
   tags = {
     Name = "my_2nd_server"
