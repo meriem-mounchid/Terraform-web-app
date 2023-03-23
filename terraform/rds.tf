@@ -16,13 +16,16 @@ resource "aws_db_instance" "rds_db" {
   engine_version       = "10.6.10"
   instance_class       = "db.t2.micro"
   username             = "myuser"
-  password             = "mypassword"
+  # password             = "mypassword"
+  password  = aws_secretsmanager_secret_version.my_secret_value.secret_string
+
   parameter_group_name = "default.mariadb10.6"
   skip_final_snapshot  = true
 
   vpc_security_group_ids = [aws_security_group.instance_sg.id]
   db_subnet_group_name   = aws_db_subnet_group.rds-subnet.name
 
+  # kms_key_id            = data.aws_kms_key.key-demo.arn
   tags = {
     Name = "rds_db"
   }

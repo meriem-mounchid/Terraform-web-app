@@ -4,7 +4,7 @@ resource "aws_lb" "alb" {
   load_balancer_type = "application"
   subnets = [aws_subnet.my_public_subnet.id, aws_subnet.my_public_subnet2.id]
   security_groups = [aws_security_group.alb_eg1.id]
-  enable_deletion_protection = true
+  # enable_deletion_protection = true
 
   tags = {
     Environment = "docker-test"

@@ -9,7 +9,9 @@ sudo curl -L "https://github.com/docker/compose/releases/download/1.25.4/docker-
 sudo chmod +x /usr/local/bin/docker-compose
 sudo git clone https://github.com/meriem-mounchid/app-test-01.git app
 sudo chmod 777 /app/.env 
+sudo mkdir -p /home/ubuntu/wordpress_nginx
+sudo mkdir /home/ubuntu/wordpress_nginx
 sudo echo "WORDPRESS_DB_HOST="${db_endpoint} >> /app/.env
 sudo echo "IP_WP="${lb_name} >> /app/.env
+sudo echo "WORDPRESS_ROOT_PASSWORD="${password} >> /app/.env
 sudo docker-compose -f /app/docker-compose.yaml up --build -d
-
