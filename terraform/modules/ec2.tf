@@ -8,7 +8,11 @@ resource "aws_instance" "my_1st_server" {
   user_data = templatefile("${path.module}/templates/instance.tpl",{
     db_endpoint = aws_db_instance.rds_db.endpoint,
     lb_name = aws_lb.alb.dns_name,
-    password = aws_secretsmanager_secret_version.my_secret_value.secret_string
+    password = var.db_password,
+    db_name = var.db_name,
+    db_user = var.db_user,
+    wp_password = var.wp_password,
+    wp_user = var.wp_user
   })
   tags = {
     Name = "my_1st_server"
@@ -24,7 +28,11 @@ resource "aws_instance" "my_2nd_server" {
   user_data = templatefile("${path.module}/templates/instance.tpl",{
     db_endpoint = aws_db_instance.rds_db.endpoint,
     lb_name = aws_lb.alb.dns_name,
-    password = aws_secretsmanager_secret_version.my_secret_value.secret_string
+    password = var.db_password,
+    db_name = var.db_name,
+    db_user = var.db_user,
+    wp_password = var.wp_password,
+    wp_user = var.wp_user
   })
   tags = {
     Name = "my_2nd_server"

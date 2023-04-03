@@ -1,0 +1,5 @@
+db_name     = "mydb"
+db_user     = "myuser"
+db_password = "mypassword"
+wp_password = "root_misaki"
+wp_user = "root_misaki"
